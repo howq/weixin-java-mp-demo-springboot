@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,6 +64,11 @@ public class WxMpConfiguration {
 
     public static Map<String, WxMpService> getMpServices() {
         return mpServices;
+    }
+
+    @Bean
+    public ImageConfig getImageConfig(){
+        return new ImageConfig();
     }
 
     @Bean

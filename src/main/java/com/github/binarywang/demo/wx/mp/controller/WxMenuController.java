@@ -1,5 +1,6 @@
 package com.github.binarywang.demo.wx.mp.controller;
 
+import com.github.binarywang.demo.wx.mp.config.ImageConfig;
 import com.github.binarywang.demo.wx.mp.config.WxMpConfiguration;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
@@ -7,6 +8,7 @@ import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
 import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -25,6 +27,9 @@ import static me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
 @RequestMapping("/wx/menu/{appid}")
 public class WxMenuController {
 
+    @Autowired
+    private ImageConfig imageConfig;
+
     /**
      * <pre>
      * 自定义菜单创建接口
@@ -38,6 +43,11 @@ public class WxMenuController {
     @PostMapping("/create")
     public String menuCreate(@PathVariable String appid, @RequestBody WxMenu menu) throws WxErrorException {
         return WxMpConfiguration.getMpServices().get(appid).getMenuService().menuCreate(menu);
+    }
+
+    @GetMapping("/test")
+    public int test(@PathVariable String appid) throws WxErrorException {
+        return imageConfig.getImgs().size();
     }
 
     @GetMapping("/create")
