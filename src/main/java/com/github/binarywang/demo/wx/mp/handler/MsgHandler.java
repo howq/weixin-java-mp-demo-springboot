@@ -1,7 +1,9 @@
 package com.github.binarywang.demo.wx.mp.handler;
 
 import com.github.binarywang.demo.wx.mp.config.ImageConfig;
+import com.github.binarywang.demo.wx.mp.config.SysConstant;
 import com.github.binarywang.demo.wx.mp.utils.JsonUtils;
+import com.github.binarywang.demo.wx.mp.utils.PrintImage;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -10,10 +12,12 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutImageMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Map;
 import java.util.Random;
@@ -50,29 +54,30 @@ public class MsgHandler extends AbstractHandler {
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
-
         //TODO 组装回复消息
         String content = "收到信息内容：" + JsonUtils.toJson(wxMessage);
+        logger.debug(content);
         WxMediaUploadResult res = null;
         try {
+            String lang = "zh_CN"; //语言
+            WxMpUser user = weixinService.getUserService().userInfo(wxMessage.getFromUser(), lang);
+            logger.debug("user：" + wxMessage.getFromUser() + "----" + user.getNickname());
+
             Random rand = new Random();
-            int i = rand.nextInt(imageConfig.getImgs().size() - 1); //生成0-100以内的随机数
-            File file = imageConfig.getImgs().get(i);
-//            InputStream inputStream = new FileInputStream(file);
-//            res = weixinService.getMaterialService().mediaUpload(WxConsts.MediaFileType.IMAGE, WxConsts.MediaFileType.FILE, inputStream);
-//// 或者
+            int i = rand.nextInt(imageConfig.getImgs().size() - 1);
+            PrintImage tt = new PrintImage();
+            BufferedImage d = imageConfig.getBufferedImages().get(i);
+            String name = user.getNickname();
+            tt.modifyImage(d, name + " 先生", 10, 40);
+            String fileName = SysConstant.IMG_TMP_LOCATION + wxMessage.getFromUser() + ".jpg";
+            tt.writeImageLocal(fileName, d);
+            logger.debug("fileName：" + fileName);
+
+//            File file = imageConfig.getImgs().get(i);
+            File file = new File(fileName);
             res = weixinService.getMaterialService().mediaUpload(WxConsts.MediaFileType.IMAGE, file);
-            logger.debug("rrrrrrrrrrrrrr" + res.toString());
-//            res.getType();
-//            res.getCreatedAt();
-//            res.getMediaId();
-//            res.getThumbMediaId();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (null == res) {
-            logger.debug("gggggggggggggg" + res.toString());
-            res = new WxMediaUploadResult();
         }
         WxMpXmlOutImageMessage outImageMessage = WxMpXmlOutMessage.IMAGE()
             .mediaId(res.getMediaId())
@@ -80,6 +85,7 @@ public class MsgHandler extends AbstractHandler {
             .toUser(wxMessage.getFromUser())
             .build();
 
+        logger.debug("组装回复消息：" + outImageMessage.toString());
         return outImageMessage;
     }
 

@@ -67,11 +67,6 @@ public class WxMpConfiguration {
     }
 
     @Bean
-    public ImageConfig getImageConfig(){
-        return new ImageConfig();
-    }
-
-    @Bean
     public Object services() {
         mpServices = this.properties.getConfigs()
             .stream()

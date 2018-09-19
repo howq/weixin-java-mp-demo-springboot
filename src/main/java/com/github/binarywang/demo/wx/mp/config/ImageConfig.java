@@ -3,13 +3,15 @@ package com.github.binarywang.demo.wx.mp.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,26 +21,25 @@ public class ImageConfig {
 
     private List<File> imgs = new ArrayList<>();
 
+    private List<BufferedImage> bufferedImages = new ArrayList<>();
+
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private String location="/imgs";
-
     public ImageConfig() {
-        try{
-            File file = ResourceUtils.getFile(location);
-            logger.debug("sssssss--->" + file.getPath());
-
-            if(file.exists()){
+        try {
+            File file = ResourceUtils.getFile(SysConstant.IMG_SRC_LOCATION);
+            if (file.exists()) {
                 File[] files = file.listFiles();
-                if(files != null){
-                    for(File childFile:files){
-                        logger.debug("sssssss--->" + childFile.getPath());
+                if (files != null) {
+                    for (File childFile : files) {
                         imgs.add(childFile);
+                        InputStream is=new FileInputStream(childFile);
+                        BufferedImage bi = ImageIO.read(is);
+                        bufferedImages.add(bi);
                     }
                 }
             }
-            logger.debug("sssssss--->" + imgs.size() + imgs.toString());
-        }catch (FileNotFoundException exception){
+        } catch (Exception exception) {
             logger.debug("img list init fail" + exception.getMessage());
         }
     }
@@ -51,11 +52,21 @@ public class ImageConfig {
         this.imgs = imgs;
     }
 
-    public String getLocation() {
-        return location;
+    /**
+     * Getter for property 'bufferedImages'.
+     *
+     * @return Value for property 'bufferedImages'.
+     */
+    public List<BufferedImage> getBufferedImages() {
+        return bufferedImages;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    /**
+     * Setter for property 'bufferedImages'.
+     *
+     * @param bufferedImages Value to set for property 'bufferedImages'.
+     */
+    public void setBufferedImages(List<BufferedImage> bufferedImages) {
+        this.bufferedImages = bufferedImages;
     }
 }
