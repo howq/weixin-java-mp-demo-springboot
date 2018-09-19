@@ -64,7 +64,7 @@ public class MsgHandler extends AbstractHandler {
             logger.debug("user：" + wxMessage.getFromUser() + "----" + user.getNickname());
 
             Random rand = new Random();
-            int i = rand.nextInt(imageConfig.getImgs().size() - 1);
+            int i = rand.nextInt(imageConfig.getImgs().size());
             PrintImage tt = new PrintImage();
             BufferedImage d = imageConfig.getBufferedImages().get(i);
             String name = user.getNickname();

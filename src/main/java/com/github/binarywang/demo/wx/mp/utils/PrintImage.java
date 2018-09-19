@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 
 public class PrintImage {
 
@@ -78,7 +79,7 @@ public class PrintImage {
                 g.setFont(this.font);
             if (content != null) {
                 g.translate(w / 2, h / 2);
-                g.rotate(8 * Math.PI / 180);
+//                g.rotate(8 * Math.PI / 180);
                 g.drawString(content.toString(), x, y);
             }
             g.dispose();
@@ -140,6 +141,7 @@ public class PrintImage {
 //        tt.modifyImageYe(d);
         tt.writeImageLocal("D:\\cheny\\code\\dome\\weixin-java-mp-demo-springboot\\src\\main\\resources\\tmp\\cc.jpg", d);
         System.out.println("success");
+
     }
 
 }
