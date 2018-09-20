@@ -4,6 +4,8 @@ package com.github.binarywang.demo.wx.mp.utils;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -95,6 +97,12 @@ public class PrintImage {
         return img;
     }
 
+    public static BufferedImage deepCopy(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
 
     /**
      * 修改图片,返回修改后的图片缓冲区（只输出一行文本）
@@ -140,11 +148,13 @@ public class PrintImage {
 
     public static void main(String[] args) {
         PrintImage tt = new PrintImage();
-        BufferedImage d = tt.loadImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\ya\\2.jpg");
+        BufferedImage d = tt.loadImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\ya\\3.jpg");
+        BufferedImage img = deepCopy(d);
+
         String Cname = "寒洛先生";
-        tt.modifyImage(d, Cname, -435, -1000, true);
+        tt.modifyImage(img, Cname, -435, -1000, true);
 //        tt.modifyImageYe(d);
-        tt.writeImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\tmp\\嫦娥.jpg", d);
+        tt.writeImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\tmp\\嫦娥.jpg", img);
         System.out.println("success");
 
     }

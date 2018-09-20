@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.Random;
 
+import static com.github.binarywang.demo.wx.mp.utils.PrintImage.deepCopy;
 import static me.chanjar.weixin.common.api.WxConsts.XmlMsgType;
 
 /**
@@ -73,7 +74,9 @@ public class MsgHandler extends AbstractHandler {
                 }
 
                 PrintImage tt = new PrintImage();
-                BufferedImage d = imageConfig.getBufferedImages().get(i);
+                BufferedImage img = imageConfig.getBufferedImages().get(i);
+                BufferedImage d = deepCopy(img);
+
                 String name = user.getNickname();
                 if (i == 1 || i == 2 || i == 5) {
                     tt.modifyImage(d, name, -435, -1000, true);
