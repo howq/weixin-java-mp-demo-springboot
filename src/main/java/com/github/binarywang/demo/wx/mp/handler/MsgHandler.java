@@ -75,7 +75,7 @@ public class MsgHandler extends AbstractHandler {
                 PrintImage tt = new PrintImage();
                 BufferedImage d = imageConfig.getBufferedImages().get(i);
                 String name = user.getNickname();
-                if (i == 1 || i == 2 || i == 6) {
+                if (i == 1 || i == 2 || i == 5) {
                     tt.modifyImage(d, name, -435, -1000, true);
                 }else {
                     tt.modifyImage(d, name, -435, -1000, false);
