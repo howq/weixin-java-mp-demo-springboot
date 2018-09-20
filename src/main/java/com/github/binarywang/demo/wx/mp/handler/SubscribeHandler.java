@@ -51,7 +51,10 @@ public class SubscribeHandler extends AbstractHandler {
         }
 
         try {
-            return new TextBuilder().build("感谢关注", wxMessage, weixinService);
+            return new TextBuilder().build("欢迎关注拾间artspace\n" +
+                "回复【中秋】，即可获得【你的中秋气质形象】艺卡哦 ~\n" +
+                "\n" +
+                "收到小可爱口令，正在生成属于你的中秋气质形象\n", wxMessage, weixinService);
         } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
         }

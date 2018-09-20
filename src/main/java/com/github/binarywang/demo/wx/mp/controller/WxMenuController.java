@@ -111,6 +111,35 @@ public class WxMenuController {
         return WxMpConfiguration.getMpServices().get(appid).getMenuService().menuCreate(menu);
     }
 
+    @GetMapping("/create2")
+    public String menuCreateSample2(@PathVariable String appid) throws WxErrorException, MalformedURLException {
+        WxMenu menu = new WxMenu();
+
+        WxMenuButton button1 = new WxMenuButton();
+        button1.setType(MenuButtonType.VIEW);
+        button1.setName("玩美");
+        button1.setUrl("https://mp.weixin.qq.com/mp/homepage?__biz=MzU0NDkyODU2MA%3D%3D&hid=1&sn=77deab1a5bd6d8842919ed4e48cac811");
+
+        WxMenuButton button2 = new WxMenuButton();
+        button2.setType(MenuButtonType.VIEW);
+        button2.setName("物美");
+        button2.setUrl("http://mp.weixin.qq.com/s?__biz=MzU0NDkyODU2MA==&mid=100000432&idx=1&sn=66a183adb2b1970925780c3f4afbd10c&chksm=7b75e4ef4c026df97fe99bdcc6868efa79629cf8dc69ae16aca217c2c5244b5e799e76e03f6a#rd");
+
+        WxMenuButton button3 = new WxMenuButton();
+        button3.setType(MenuButtonType.VIEW);
+        button3.setName("拾间");
+        button3.setUrl("http://mp.weixin.qq.com/s?__biz=MzU0NDkyODU2MA==&mid=100000277&idx=1&sn=837bf22201e07e10a912da9850e7a361&chksm=7b75e44a4c026d5c408ac52e91a0797bedff5f3a5ffd1b831130d05c69fa52d3e96b251c84c4#rd");
+
+        menu.getButtons().add(button1);
+        menu.getButtons().add(button2);
+        menu.getButtons().add(button3);
+
+        ServletRequestAttributes servletRequestAttributes =
+            (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        return WxMpConfiguration.getMpServices().get(appid).getMenuService().menuCreate(menu);
+    }
+
     /**
      * <pre>
      * 自定义菜单创建接口

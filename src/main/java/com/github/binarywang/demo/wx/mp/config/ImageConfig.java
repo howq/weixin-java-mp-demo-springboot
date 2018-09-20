@@ -42,6 +42,7 @@ public class ImageConfig {
         } catch (Exception exception) {
             logger.debug("img list init fail" + exception.getMessage());
         }
+        logger.debug(imgs.toString());
     }
 
     public List<File> getImgs() {

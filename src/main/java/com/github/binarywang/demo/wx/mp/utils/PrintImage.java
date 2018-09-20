@@ -11,7 +11,8 @@ import java.util.Random;
 
 public class PrintImage {
 
-    private Font font = new Font("黑体", Font.PLAIN, 15); // 添加字体的属性设置
+//    private Font font = new Font("黑体", Font.PLAIN, 50); // 添加字体的属性设置
+    private Font font = new Font("微软雅黑 Bold", Font.PLAIN, 50); // 添加字体的属性设置
 
     private Graphics2D g = null;
 
@@ -74,7 +75,8 @@ public class PrintImage {
             int h = img.getHeight();
             g = img.createGraphics();
             g.setBackground(Color.WHITE);
-            g.setColor(new Color(120, 120, 110));//设置字体颜色
+//            g.setColor(new Color(120, 120, 110));//设置字体颜色
+            g.setColor(new Color(255, 250, 250));//设置字体颜色
             if (this.font != null)
                 g.setFont(this.font);
             if (content != null) {
@@ -135,11 +137,11 @@ public class PrintImage {
 
     public static void main(String[] args) {
         PrintImage tt = new PrintImage();
-        BufferedImage d = tt.loadImageLocal("D:\\cheny\\code\\dome\\weixin-java-mp-demo-springboot\\src\\main\\resources\\img\\4.jpg");
-        String Cname = "寒洛";
-        tt.modifyImage(d, Cname + " 先生", 10, 40);
+        BufferedImage d = tt.loadImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\ya\\1.jpg");
+        String Cname = "寒洛先生";
+        tt.modifyImage(d, Cname, -435, -1000);
 //        tt.modifyImageYe(d);
-        tt.writeImageLocal("D:\\cheny\\code\\dome\\weixin-java-mp-demo-springboot\\src\\main\\resources\\tmp\\cc.jpg", d);
+        tt.writeImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\tmp\\嫦娥.jpg", d);
         System.out.println("success");
 
     }

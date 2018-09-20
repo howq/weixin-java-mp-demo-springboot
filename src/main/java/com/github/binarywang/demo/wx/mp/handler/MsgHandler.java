@@ -59,34 +59,52 @@ public class MsgHandler extends AbstractHandler {
         logger.debug(content);
         WxMediaUploadResult res = null;
         try {
-            String lang = "zh_CN"; //语言
-            WxMpUser user = weixinService.getUserService().userInfo(wxMessage.getFromUser(), lang);
-            logger.debug("user：" + wxMessage.getFromUser() + "----" + user.getNickname());
+            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐")) {
+                String lang = "zh_CN"; //语言
+                WxMpUser user = weixinService.getUserService().userInfo(wxMessage.getFromUser(), lang);
+                logger.debug("user：" + wxMessage.getFromUser() + "----" + user.getNickname());
 
-            Random rand = new Random();
-            int i = rand.nextInt(imageConfig.getImgs().size());
-            PrintImage tt = new PrintImage();
-            BufferedImage d = imageConfig.getBufferedImages().get(i);
-            String name = user.getNickname();
-            tt.modifyImage(d, name + " 先生", 10, 40);
-            String fileName = SysConstant.IMG_TMP_LOCATION + wxMessage.getFromUser() + ".jpg";
-            tt.writeImageLocal(fileName, d);
-            logger.debug("fileName：" + fileName);
+                Random rand = new Random();
+                int i = rand.nextInt(imageConfig.getImgs().size()/2);
+
+                //男性
+                if (user.getSex() == 1) {
+                    i += imageConfig.getImgs().size() / 2;
+                }
+
+                PrintImage tt = new PrintImage();
+                BufferedImage d = imageConfig.getBufferedImages().get(i);
+                String name = user.getNickname();
+                tt.modifyImage(d, name, 10, 40);
+                String fileName = SysConstant.IMG_TMP_LOCATION + wxMessage.getFromUser() + ".jpg";
+                tt.writeImageLocal(fileName, d);
+                logger.debug("fileName：" + fileName);
 
 //            File file = imageConfig.getImgs().get(i);
-            File file = new File(fileName);
-            res = weixinService.getMaterialService().mediaUpload(WxConsts.MediaFileType.IMAGE, file);
+                File file = new File(fileName);
+                res = weixinService.getMaterialService().mediaUpload(WxConsts.MediaFileType.IMAGE, file);
+
+                WxMpXmlOutImageMessage outImageMessage = WxMpXmlOutMessage.IMAGE()
+                    .mediaId(res.getMediaId())
+                    .fromUser(wxMessage.getToUser())
+                    .toUser(wxMessage.getFromUser())
+                    .build();
+
+                logger.debug("组装回复消息：" + outImageMessage.toString());
+                return outImageMessage;
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        WxMpXmlOutImageMessage outImageMessage = WxMpXmlOutMessage.IMAGE()
-            .mediaId(res.getMediaId())
-            .fromUser(wxMessage.getToUser())
-            .toUser(wxMessage.getFromUser())
-            .build();
-
-        logger.debug("组装回复消息：" + outImageMessage.toString());
-        return outImageMessage;
+//        WxMpXmlOutImageMessage outImageMessage = WxMpXmlOutMessage.IMAGE()
+//            .mediaId(res.getMediaId())
+//            .fromUser(wxMessage.getToUser())
+//            .toUser(wxMessage.getFromUser())
+//            .build();
+//
+//        logger.debug("组装回复消息：" + outImageMessage.toString());
+        return null;
     }
-
 }
