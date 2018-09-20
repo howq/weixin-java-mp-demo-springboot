@@ -68,7 +68,7 @@ public class PrintImage {
     /**
      * 修改图片,返回修改后的图片缓冲区（只输出一行文本）
      */
-    public BufferedImage modifyImage(BufferedImage img, Object content, int x, int y) {
+    public BufferedImage modifyImage(BufferedImage img, Object content, int x, int y,boolean isBlank) {
 
         try {
             int w = img.getWidth();
@@ -77,6 +77,9 @@ public class PrintImage {
             g.setBackground(Color.WHITE);
 //            g.setColor(new Color(120, 120, 110));//设置字体颜色
             g.setColor(new Color(255, 250, 250));//设置字体颜色
+            if (isBlank) {
+                g.setColor(new Color(96, 96, 94));//设置字体颜色
+            }
             if (this.font != null)
                 g.setFont(this.font);
             if (content != null) {
@@ -137,9 +140,9 @@ public class PrintImage {
 
     public static void main(String[] args) {
         PrintImage tt = new PrintImage();
-        BufferedImage d = tt.loadImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\ya\\1.jpg");
+        BufferedImage d = tt.loadImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\ya\\2.jpg");
         String Cname = "寒洛先生";
-        tt.modifyImage(d, Cname, -435, -1000);
+        tt.modifyImage(d, Cname, -435, -1000, true);
 //        tt.modifyImageYe(d);
         tt.writeImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\tmp\\嫦娥.jpg", d);
         System.out.println("success");
