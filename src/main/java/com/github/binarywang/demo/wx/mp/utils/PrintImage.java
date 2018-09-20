@@ -12,7 +12,7 @@ import java.util.Random;
 public class PrintImage {
 
 //    private Font font = new Font("黑体", Font.PLAIN, 50); // 添加字体的属性设置
-    private Font font = new Font("微软雅黑", Font.PLAIN, 50); // 添加字体的属性设置
+    private Font font = new Font("微软雅黑 Bold", Font.PLAIN, 50); // 添加字体的属性设置
 
     private Graphics2D g = null;
 

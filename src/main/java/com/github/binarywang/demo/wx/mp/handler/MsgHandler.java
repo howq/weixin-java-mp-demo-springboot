@@ -75,7 +75,7 @@ public class MsgHandler extends AbstractHandler {
                 PrintImage tt = new PrintImage();
                 BufferedImage d = imageConfig.getBufferedImages().get(i);
                 String name = user.getNickname();
-                tt.modifyImage(d, name, 10, 40);
+                tt.modifyImage(d, name, -435, -1000);
                 String fileName = SysConstant.IMG_TMP_LOCATION + wxMessage.getFromUser() + ".jpg";
                 tt.writeImageLocal(fileName, d);
                 logger.debug("fileName：" + fileName);
