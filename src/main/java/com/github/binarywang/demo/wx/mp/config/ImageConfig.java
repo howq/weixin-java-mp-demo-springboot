@@ -30,10 +30,11 @@ public class ImageConfig {
             File file = ResourceUtils.getFile(SysConstant.IMG_SRC_LOCATION);
             if (file.exists()) {
                 File[] files = file.listFiles();
+                logger.debug("files---->" + files.toString());
                 if (files != null) {
-                    for (File childFile : files) {
-                        imgs.add(childFile);
-                        InputStream is=new FileInputStream(childFile);
+                    for (int i = 0; i < files.length; i++) {
+                        imgs.add(files[i]);
+                        InputStream is=new FileInputStream(files[i]);
                         BufferedImage bi = ImageIO.read(is);
                         bufferedImages.add(bi);
                     }
@@ -42,7 +43,7 @@ public class ImageConfig {
         } catch (Exception exception) {
             logger.debug("img list init fail" + exception.getMessage());
         }
-        logger.debug(imgs.toString());
+        logger.debug("imgs---->" + imgs.toString());
     }
 
     public List<File> getImgs() {
