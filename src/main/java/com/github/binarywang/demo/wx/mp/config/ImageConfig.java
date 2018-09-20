@@ -12,8 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 @ConfigurationProperties(prefix = "img")
@@ -30,14 +29,27 @@ public class ImageConfig {
             File file = ResourceUtils.getFile(SysConstant.IMG_SRC_LOCATION);
             if (file.exists()) {
                 File[] files = file.listFiles();
+                List fileList = Arrays.asList(files);
+                Collections.sort(fileList, new Comparator<File>() {
+                    @Override
+                    public int compare(File o1, File o2) {
+                        if (o1.isDirectory() && o2.isFile())
+                            return -1;
+                        if (o1.isFile() && o2.isDirectory())
+                            return 1;
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                });
+                logger.debug("fileList---->" + fileList.toString());
                 logger.debug("files---->" + files.toString());
                 if (files != null) {
-                    for (int i = 0; i < files.length; i++) {
-                        imgs.add(files[i]);
-                        InputStream is=new FileInputStream(files[i]);
+                    for (File file1 : files) {
+                        imgs.add(file1);
+                        InputStream is=new FileInputStream(file1);
                         BufferedImage bi = ImageIO.read(is);
                         bufferedImages.add(bi);
                     }
+
                 }
             }
         } catch (Exception exception) {
