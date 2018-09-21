@@ -2,6 +2,7 @@ package com.github.binarywang.demo.wx.mp.handler;
 
 import com.github.binarywang.demo.wx.mp.config.ImageConfig;
 import com.github.binarywang.demo.wx.mp.config.SysConstant;
+import com.github.binarywang.demo.wx.mp.utils.EmojiFilter;
 import com.github.binarywang.demo.wx.mp.utils.JsonUtils;
 import com.github.binarywang.demo.wx.mp.utils.PrintImage;
 import me.chanjar.weixin.common.api.WxConsts;
@@ -60,13 +61,14 @@ public class MsgHandler extends AbstractHandler {
         logger.debug(content);
         WxMediaUploadResult res = null;
         try {
-            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐")) {
+            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐") || XmlMsgType.IMAGE == wxMessage.getMsgType()) {
                 String lang = "zh_CN"; //语言
                 WxMpUser user = weixinService.getUserService().userInfo(wxMessage.getFromUser(), lang);
                 logger.debug("user：" + wxMessage.getFromUser() + "----" + user.getNickname());
+                logger.debug("user：" + wxMessage.getFromUser() + "----" + EmojiFilter.filterEmoji(user.getNickname()));
 
                 Random rand = new Random();
-                int i = rand.nextInt(imageConfig.getImgs().size()/2);
+                int i = rand.nextInt(imageConfig.getImgs().size() / 2);
 
                 //男性
                 if (user.getSex() == 1) {
@@ -77,10 +79,10 @@ public class MsgHandler extends AbstractHandler {
                 BufferedImage img = imageConfig.getBufferedImages().get(i);
                 BufferedImage d = deepCopy(img);
 
-                String name = user.getNickname();
+                String name = EmojiFilter.filterEmoji(user.getNickname());
                 if (i == 1 || i == 2 || i == 5) {
                     tt.modifyImage(d, name, -435, -1000, true);
-                }else {
+                } else {
                     tt.modifyImage(d, name, -435, -1000, false);
                 }
                 String fileName = SysConstant.IMG_TMP_LOCATION + wxMessage.getFromUser() + ".jpg";
