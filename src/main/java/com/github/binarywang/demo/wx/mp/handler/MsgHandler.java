@@ -61,7 +61,7 @@ public class MsgHandler extends AbstractHandler {
         logger.debug(content);
         WxMediaUploadResult res = null;
         try {
-            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐") || XmlMsgType.IMAGE == wxMessage.getMsgType()) {
+            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐") || XmlMsgType.IMAGE.equals(wxMessage.getMsgType())) {
                 String lang = "zh_CN"; //语言
                 WxMpUser user = weixinService.getUserService().userInfo(wxMessage.getFromUser(), lang);
                 logger.debug("user：" + wxMessage.getFromUser() + "----" + user.getNickname());
