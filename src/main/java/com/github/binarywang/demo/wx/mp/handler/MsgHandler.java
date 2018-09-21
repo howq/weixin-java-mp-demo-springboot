@@ -10,6 +10,7 @@ import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutImageMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
@@ -46,13 +47,13 @@ public class MsgHandler extends AbstractHandler {
 
         //当用户输入关键词如“你好”，“客服”等，并且有客服在线时，把消息转发给在线客服
         try {
-            if (StringUtils.startsWithAny(wxMessage.getContent(), "你好", "客服")
-                && weixinService.getKefuService().kfOnlineList()
-                .getKfOnlineList().size() > 0) {
-                return WxMpXmlOutMessage.TRANSFER_CUSTOMER_SERVICE()
-                    .fromUser(wxMessage.getToUser())
-                    .toUser(wxMessage.getFromUser()).build();
-            }
+            WxMpKefuMessage message = WxMpKefuMessage
+                .TEXT()
+                .toUser(wxMessage.getFromUser())
+                .content("收到小可爱口令，正在生成属于你的中秋气质形象...")
+                .build();
+            // 设置消息的内容等信息
+            weixinService.getKefuService().sendKefuMessage(message);
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
