@@ -50,7 +50,7 @@ public class MsgHandler extends AbstractHandler {
             WxMpKefuMessage message = WxMpKefuMessage
                 .TEXT()
                 .toUser(wxMessage.getFromUser())
-                .content("收到小可爱口令，正在生成属于你的中秋气质形象...")
+                .content("收到小可爱口令，正在生成属于你的中秋气质形象......")
                 .build();
             // 设置消息的内容等信息
             weixinService.getKefuService().sendKefuMessage(message);
