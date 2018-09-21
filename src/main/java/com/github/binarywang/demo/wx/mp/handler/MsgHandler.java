@@ -47,13 +47,23 @@ public class MsgHandler extends AbstractHandler {
 
         //当用户输入关键词如“你好”，“客服”等，并且有客服在线时，把消息转发给在线客服
         try {
-            WxMpKefuMessage message = WxMpKefuMessage
-                .TEXT()
-                .toUser(wxMessage.getFromUser())
-                .content("收到小可爱口令，正在生成属于你的中秋气质形象......")
-                .build();
-            // 设置消息的内容等信息
-            weixinService.getKefuService().sendKefuMessage(message);
+            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐")) {
+                WxMpKefuMessage message = WxMpKefuMessage
+                    .TEXT()
+                    .toUser(wxMessage.getFromUser())
+                    .content("收到小可爱口令，正在生成属于你的中秋气质形象......")
+                    .build();
+                // 设置消息的内容等信息
+                weixinService.getKefuService().sendKefuMessage(message);
+            } else {
+                WxMpKefuMessage message = WxMpKefuMessage
+                    .TEXT()
+                    .toUser(wxMessage.getFromUser())
+                    .content("咦，暗号不对哟，记得回复【中秋】二字，获取专属你的气质形象卡哦/:rose")
+                    .build();
+                // 设置消息的内容等信息
+                weixinService.getKefuService().sendKefuMessage(message);
+            }
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
@@ -62,7 +72,7 @@ public class MsgHandler extends AbstractHandler {
         logger.debug(content);
         WxMediaUploadResult res = null;
         try {
-            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐") || XmlMsgType.IMAGE.equals(wxMessage.getMsgType())) {
+            if (StringUtils.startsWithAny(wxMessage.getContent(), "中秋", "快乐")) {
                 String lang = "zh_CN"; //语言
                 WxMpUser user = weixinService.getUserService().userInfo(wxMessage.getFromUser(), lang);
                 logger.debug("user：" + wxMessage.getFromUser() + "----" + user.getNickname());
