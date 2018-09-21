@@ -23,4 +23,4 @@ wx:
         token: ihowq7777
         aesKey: l6F11naKkolKDAkTJNcg2BVM5APzIkapKmdBwWdyqe6
 server:
-    port: 8081
+    port: 80
