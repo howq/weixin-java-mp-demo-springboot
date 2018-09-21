@@ -53,7 +53,7 @@ public class SubscribeHandler extends AbstractHandler {
         try {
             return new TextBuilder().build("欢迎关注拾间artspace/:heart\n\n" +
                 "回复【中秋】，即可获得【你的中秋气质形象】艺卡哦~~~\n\n"
-                +"也可以给拾间君一张你最喜欢的照片，让我们一起乘坐上古时光机，找回专属于你的中秋气质形象！", wxMessage, weixinService);
+                +"也可以给 小美 一张你最喜欢的照片，让我们一起乘坐上古时光机，找回专属于你的中秋气质形象！", wxMessage, weixinService);
         } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
         }
