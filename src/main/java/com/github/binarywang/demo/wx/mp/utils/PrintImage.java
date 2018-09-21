@@ -14,7 +14,7 @@ import java.util.Random;
 public class PrintImage {
 
 //    private Font font = new Font("黑体", Font.PLAIN, 50); // 添加字体的属性设置
-    private Font font = new Font("微软雅黑 Bold", Font.PLAIN, 50); // 添加字体的属性设置
+    private Font font = new Font("微软雅黑 Bold", Font.PLAIN, 60); // 添加字体的属性设置
 
     private Graphics2D g = null;
 
@@ -148,13 +148,13 @@ public class PrintImage {
 
     public static void main(String[] args) {
         PrintImage tt = new PrintImage();
-        BufferedImage d = tt.loadImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\ya\\3.jpg");
+        BufferedImage d = tt.loadImageLocal("C:\\Users\\Administrator\\Desktop\\easy\\新建文件夹\\3.jpg");
         BufferedImage img = deepCopy(d);
 
         String Cname = "寒洛先生";
         tt.modifyImage(img, Cname, -435, -1000, true);
 //        tt.modifyImageYe(d);
-        tt.writeImageLocal("C:\\Users\\h\\Desktop\\中秋艺卡\\tmp\\嫦娥.jpg", img);
+        tt.writeImageLocal("C:\\Users\\Administrator\\Desktop\\easy\\新建文件夹\\tmp\\嫦娥.jpg", img);
         System.out.println("success");
 
     }
